@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <script
+        src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .images{
+        display: flex;
+        align-items: flex-start;
+        transition : transform 0.5s
+    }
+    .images >img{
+        
+    }
+.window{
+    border: 10px solid red;
+    width: 300px;
+    overflow: hidden;
+}
+    .red{
+        color: red;
+    }
+</style>
+<body>
+    <div class="window">
+        <div class="images" id="images">
+            <img src="./1.jpg" width="300px" alt="" srcset="">
+            <img src="./2.jpg" width="300px" alt="" srcset="">
+            <img src="./3.jpg" width="300px" alt="" srcset="">
+        </div>
+        <span id="button">
+            <span>第1张</span><span>第2张</span><span>第3张</span>
+        </span>
+    </div>
+
+    <script>
+var allButtons = $('#button>span')
+for (let i = 0; i <allButtons.length ; i++) {
+    $(allButtons[i]).on('click',function (x) {
+        var index = $(x.currentTarget).index()
+        var p = -300*index
+        $('#images').css({
+            transform:'translate('+p+'px'
+        })
+        n = index
+        activeButton(allButtons.eq(n))
+    })
+}
+var n = 0
+var size = allButtons.length
+allButtons.eq(n % size).trigger('click')
+
+
+var timerId = setTimer()
+
+function setTimer() {
+    return setInterval(() => {
+        n += 1
+        allButtons.eq(n % size).trigger('click')
+    }, 300)
+}
+
+function activeButton($button) {
+    $button.addClass('red').siblings('.red').removeClass('red')
+}
+
+$('.window').on('mouseenter', function() {
+    window.clearInterval(timerId)
+})
+
+$('.window').on('mouseleave', function() {
+    timerId = setTimer()
+})
+    </script>
+</body>
+</html>
